@@ -24,4 +24,5 @@ COPY --from=builder /app/tsconfig.json ./
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+# Usa el puerto de la variable de entorno PORT si está definido
+CMD ["sh", "-c", "npm start"]
