@@ -1,37 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Documentación del Proyecto: Admin Panel
 
-First, run the development server:
+## Descripción General
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Este proyecto es una plantilla de panel de administración construida con Next.js, TypeScript y TailwindCSS. Su objetivo es servir como base para sistemas administrativos modernos, con componentes reutilizables, rutas protegidas y una estructura escalable.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ¿Para qué funciona esta plantilla?
+- Panel de administración para aplicaciones web.
+- Gestión de usuarios, productos, reportes, proveedores y configuraciones.
+- Base para proyectos SaaS, e-commerce, dashboards internos, etc.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Creación del Proyecto
+1. Se creó el proyecto con Next.js y TypeScript:
+   ```bash
+   npx create-next-app@latest admin-panel -ts
+   ```
+2. Se añadieron y configuraron dependencias como TailwindCSS, next-themes, Radix UI, sonner, etc.
+3. Se organizó la estructura en carpetas: `src/app` para rutas, `src/components` para componentes reutilizables, y `src/lib` para utilidades.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Dockerización
+1. Se creó un archivo `Dockerfile` multi-stage para construir y servir la app en producción.
+2. Se añadió un `.dockerignore` para evitar copiar archivos innecesarios.
+3. Se modificó el script de inicio en `package.json` para usar el puerto de la variable de entorno `PORT` (requerido por Railway y otros servicios cloud).
 
-## Learn More
+## CI/CD con GitHub Actions
+1. Se creó el archivo `.github/workflows/ci.yml` para automatizar la construcción, lint y pruebas en cada push/pull request.
+2. Se ajustó la rama principal de `main` a `master` para que el workflow se ejecute correctamente.
 
-To learn more about Next.js, take a look at the following resources:
+## Despliegue en Railway
+1. Se conectó el repositorio de GitHub a Railway.
+2. Railway detectó el proyecto y lo desplegó automáticamente.
+3. Se solucionó un error común: "Application failed to respond". Esto se debió a que la app escuchaba en el puerto 3000 fijo, pero Railway requiere que se use el puerto de la variable de entorno `PORT`. Se corrigió el script de inicio y el Dockerfile para soportar esto.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Complicaciones y Soluciones
+- **Error de puerto en Railway:** La app no respondía porque escuchaba en el puerto 3000 en vez de `$PORT`. Se solucionó modificando el script de inicio y el Dockerfile.
+- **Workflow de GitHub Actions no visible:** El workflow no aparecía porque estaba configurado para la rama `main` y el repositorio usaba `master`. Se actualizó la configuración.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Ejecución Local
+- Para desarrollo: `npm run dev`
+- Para producción local: `npm run build && npm start`
+- Para Docker:
+  ```bash
+  docker build -t admin-panel .
+  docker run -p 3000:3000 admin-panel
+  ```
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# admin-panel
+## Créditos
+Plantilla creada y adaptada por el equipo de desarrollo. Basada en tecnologías modernas para facilitar la creación de paneles administrativos escalables.
